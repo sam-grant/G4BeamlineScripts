@@ -542,16 +542,23 @@ param IC943_center=-2500.0005-1066.8/2-(240.5182-239.8190)*1000
 tubs IC943_flange color=$Orange length=1 material=Fe \
      innerRadius=3*25.4 outerRadius=8*25.4
 param L=$IC943_center+3.0625*25.4
+param flangeUpX=$xpos0+$xdir0*$L
+param flangeUpY=$ypos0+$ydir0*$L
+param flangeUpZ=$zpos0+$zdir0*$L
 place IC943_flange rename=IC943_flange_up \
       kill=$ProtonBeamLineKill \
       rotation=x$xrot,y$EndBeamYrot \
-      x=$xpos0+$xdir0*$L y=$ypos0+$ydir0*$L z=$zpos0+$zdir0*$L
+      x=$flangeUpX y=$flangeUpY z=$flangeUpZ
 # Ditto the box length of 6in
 param L=$IC943_center-3.0625*25.4
+param flangeDownX=$xpos0+$xdir0*$L
+param flangeDownY=$ypos0+$ydir0*$L
+param flangeDownZ=$zpos0+$zdir0*$L
 place IC943_flange rename=IC943_flange_down \
       kill=$ProtonBeamLineKill \
       rotation=x$xrot,y$EndBeamYrot \
-      x=$xpos0+$xdir0*$L y=$ypos0+$ydir0*$L z=$zpos0+$zdir0*$L
+      x=$flangeDownX y=$flangeDownY z=$flangeDownZ
+
 if $Use_Beam_Tracers==1
    param L=$IC943_center+3.0625*25.4+1
    place proton_beam_tracer rename=IC943_flange_up_tracer \ 
@@ -561,10 +568,36 @@ if $Use_Beam_Tracers==1
    place proton_beam_tracer rename=IC943_flange_down_tracer \ 
       rotation=x$xrot,y$EndBeamYrot \
       x=$xpos0+$xdir0*$L y=$ypos0+$ydir0*$L z=$zpos0+$zdir0*$L
-endif
 
 # SWIC IC943
-# TODO
+# NOTE: a search of the proton lattice indicated that IC943 is at
+# location 241.0. For now, I will put a virtual detector in the center 
+# of the SWIC can.
+param IC943X=($flangeUpX+$flangeDownX)/2
+param IC943Y=($flangeUpY+$flangeDownY)/2
+param IC943Z=($flangeUpZ+$flangeDownZ)/2
+place proton_beam_tracer rename=IC943det \
+	rotation=x$xrot,y$EndBeamYrot \
+	x=$IC943X y=$IC943Y z=$IC943Z
+
+# MW943NU
+# NUMI multiwire between the protection collimator and the PS.
+# Located jsut upstream of the ionization chamber IC943.
+# In some documents this is referred to as MW943C.
+# A search of the proton lattice indicates that MW943C (a NUMI multiwire)
+# is located somwehere between 240.27 and 240.54, putting it at ~10.5"
+# across (probably the size of the vaccum can) and its center position at
+# 240.405.
+param MW943_center=-2500.0005-1066.8/2-(240.405-239.8190)*1000
+param L=$MW943_center
+param MW943X=$xpos0+$xdir0*$L
+param MW943Y=$ypos0+$ydir0*$L
+param MW943Z=$zpos0+$zdir0*$L
+place proton_beam_tracer rename=MW943NU \
+	rotation=x$xrot,y$EndBeamYrot \
+	x=$MW943X y=$MW943Y z=$MW943Z \
+	color=$Magenta
+endif
 
 # vacuum window, aperture definition, and "air channel"
 # material Ti-6Al-4V
