@@ -11,15 +11,15 @@
 # one detector containing particle tracks when lost in stopping targets (1)
 # All data from those detectors would be in "g4beamline.root" output file
 
-
 if $Use_Basic_Det==1 
 
 ##*******************
 ## Code to write our beam source file for neutron studies
 ##
 
-zntuple BeamFile z=$Coll_01_z-173 
-
+# Moved to Mu2E config file
+# Main zntuple
+# zntuple BeamFile z=$Coll_01_z-173 format=rootExtended 
 
 ##********************
 ## Virtual detectors at the entrance and exit of the collimators
@@ -28,9 +28,10 @@ zntuple BeamFile z=$Coll_01_z-173
 
 virtualdetector Coll_01_Det \
                 file=mu2eout \
-		length=0.3\
+		        length=0.3\
                 radius=$TScryo_innerR-0.5 \
-		color=invisible
+		        color=invisible \ 
+                format=rootExtended
 		
 place Coll_01_Det \
       x=$Coll_01_x \
@@ -48,8 +49,9 @@ place Coll_01_Det \
 
 virtualdetector Coll_03_Det \
                 file=mu2eout \
-		radius=$TScryo_innerR-0.5 \
-		color=$Invisible
+		        radius=$TScryo_innerR-0.5 \
+		        color=$Invisible \
+                format=rootExtended
 		
 place Coll_03_Det \
       x=0.5+$Coll_03_up_x+$Coll_03_length/2 \
@@ -74,7 +76,8 @@ place Coll_03_Det \
 virtualdetector Coll_05_Det \
                 file=mu2eout \
                 radius=$TScryo_innerR-0.5 \
-		color=invisible
+		        color=invisible \
+                format=rootExtended
 		
 place Coll_05_Det \
       x=$Coll_05_x \
@@ -104,32 +107,38 @@ virtualdetector Tracker_Det \
     file=mu2eout \
     length=0.3\
     radius=680-0.5 \
-    color=invisible
+    color=invisible \
+    format=rootExtended
 		
 place Tracker_Det \
     x=-2*3904 \
     z=8410-0.3+7929 \
-    rename=Tracker_DetIn
+    rename=Tracker_DetIn \
+    format=rootExtended 
  
 place Tracker_Det \
     x=-2*3904 \
     z=11660+0.3+7929 \
-    rename=Tracker_DetOut
+    rename=Tracker_DetOut \
+    format=rootExtended 
 
 virtualdetector Calorimeter_Det \
     file=mu2eout \
     length=0.3\
     radius=690-0.5 \
-    color=invisible
+    color=invisible \
+    format=rootExtended
 		
 place Calorimeter_Det \
     x=-2*3904 \
     z=11740-0.3+7929 \
-    rename=Calorimeter_DetIn
+    rename=Calorimeter_DetIn \
+    format=rootExtended
  
 place Calorimeter_Det \
     x=-2*3904 \
     z=13190+0.3+7929 \
-    rename=Calorimeter_DetOut
+    rename=Calorimeter_DetOut \
+    format=rootExtended
 
 endif
