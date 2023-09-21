@@ -36,7 +36,7 @@ if [ $1 == 0 ]; then
 elif [ $1 == 1 ]; then
     command="mu2eg4bl --in=${mu2ein} --tar=${tarbal} --njobs=250 --events-per-job=5000000 --g4bl-version=v3_06 --g4bl-add-args='READ_Beam_File=$1' ${opt_offsite}"
 elif [ $1 == -1 ]; then # Test job
-    command="mu2eg4bl --in=${mu2ein} --tar=${tarbal} --njobs=1 --events-per-job=1000 --g4bl-version=v3_06 --g4bl-add-args='READ_Beam_File=$1' ${opt_offsite}"
+    command="mu2eg4bl --in=${mu2ein} --tar=${tarbal} --njobs=1 --events-per-job=1000 --g4bl-version=v3_06 --g4bl-add-args='READ_Beam_File=0' ${opt_offsite}"
 fi
 
 echo "Executing:" $command
