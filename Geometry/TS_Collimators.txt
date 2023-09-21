@@ -27,26 +27,32 @@ param Coll_pbarU_Rin=0.0
 param Coll_pbarU_x=0.0
 param Coll_pbarU_z=-4144.02+$MECO_G4_zTrans
 
-tubs Coll_pbarU \
-     outerRadius=$Coll_pbarU_Rout innerRadius=$Coll_pbarU_Rin \
-     length=$Coll_pbarU_length \
-     maxStep=50.e-3\
-     initialPhi=0.0 finalPhi=360.0 \
-     material=Al \
-     color=$Yellow \
-     kill=0
+if $No_PS_Pbar_Window==0
 
-place Coll_pbarU \
-      x=$Coll_pbarU_x \
-      z=$Coll_pbarU_z \
-      rename=Coll_pbarU_a
-#add in SS rings
-tubs Coll_pbarU_SS innerRadius=158.75 outerRadius=174.625 length=6.35 \
-material=Stainless304 initialPhi=0. finalPhi=360. color=$Blue kill=0
+      tubs Coll_pbarU \
+           outerRadius=$Coll_pbarU_Rout innerRadius=$Coll_pbarU_Rin \
+           length=$Coll_pbarU_length \
+           maxStep=50.e-3\
+           initialPhi=0.0 finalPhi=360.0 \
+           material=Al \
+           color=$Yellow \
+           kill=0
+      
+      place Coll_pbarU \
+            x=$Coll_pbarU_x \
+            z=$Coll_pbarU_z \
+            rename=Coll_pbarU_a
 
-place Coll_pbarU_SS x=0. z=$Coll_pbarU_z-3.3 rename=Coll_pbarU_SSa
-place Coll_pbarU_SS x=0. z=$Coll_pbarU_z+3.3 rename=Coll_pbarU_SSb
-place Coll_pbarU_SS x=0. z=$Coll_pbarU_z+9.65 rename=Coll_pbarU_SSc
+      #add in SS rings
+      tubs Coll_pbarU_SS innerRadius=158.75 outerRadius=174.625 length=6.35 \
+      material=Stainless304 initialPhi=0. finalPhi=360. color=$Blue kill=0
+      
+      place Coll_pbarU_SS x=0. z=$Coll_pbarU_z-3.3 rename=Coll_pbarU_SSa
+      place Coll_pbarU_SS x=0. z=$Coll_pbarU_z+3.3 rename=Coll_pbarU_SSb
+      place Coll_pbarU_SS x=0. z=$Coll_pbarU_z+9.65 rename=Coll_pbarU_SSc
+
+endif
+
 #      
 #
 # Added 1 cm carbon inner layer (15 cm - 16 cm in radius), 02/22/2012 Coll_01_a,b_in
@@ -54,7 +60,6 @@ place Coll_pbarU_SS x=0. z=$Coll_pbarU_z+9.65 rename=Coll_pbarU_SSc
 # Add pbar additional inner material carbon 200mm long, 6/14/2014 Coll_01_a,b_pbar
 #z=-3254mm to z=-3054  R=150 mm r=120 mm phi=200-340 degrees
 # Designed by Zhengyun You and Bill Molzon, see doc db #4139 
-
 
 param Coll_01_Rout=240.0
 param Coll_01_Rin_1=150.0
@@ -90,56 +95,59 @@ tube Coll_01_a_out \
     material=Fake_Cu \
     color=$TS_Collimator_Color \
     kill=$TS_Collimator_kill
+
+if $No_Coll_01==0 
+
+      place Coll_01_a_pbar \
+            x=$Coll_01_x \
+            z=$Coll_01_z+$Coll_01_length/2.0+400.    
+              
+      place Coll_01_a_in \
+            x=$Coll_01_x \
+            z=$Coll_01_z+$Coll_01_length/2.0
+
+      place Coll_01_a_out \
+            x=$Coll_01_x \
+            z=$Coll_01_z+$Coll_01_length/2.0
+
+      tube Coll_01_b_pbar \
+          innerRadius=120. \
+          outerRadius=$Coll_01_Rin_1 \
+          length=200. \
+          initialPhi=200. finalPhi=340.0 \
+          material=Vacuum \
+          color=$Red \
+          kill=$TS_Collimator_kill      
+
+      tube Coll_01_b_in \
+          innerRadius=$Coll_01_Rin_1 \
+          outerRadius=$Coll_01_Rin_2 \
+          length=$Coll_01_length \
+          initialPhi=-90.0 finalPhi=90.0 \
+          material=TS_Graphite \
+          color=invisible \
+          kill=$TS_Collimator_kill
+
+      tube Coll_01_b_out \
+          innerRadius=$Coll_01_Rin_2 \
+          outerRadius=$Coll_01_Rout \
+          length=$Coll_01_length \
+          initialPhi=-90.0 finalPhi=90.0 \
+          material=Fake_Cu \
+          color=invisible\
+          kill=$TS_Collimator_kill
     
-place Coll_01_a_pbar \
-      x=$Coll_01_x \
-      z=$Coll_01_z+$Coll_01_length/2.0+400.    
-        
-place Coll_01_a_in \
-      x=$Coll_01_x \
-      z=$Coll_01_z+$Coll_01_length/2.0
+      #place Coll_01_b_pbar x=$Coll_01_x z=$Coll_01_z+$Coll_01_length/2.0+400.      
 
-place Coll_01_a_out \
-      x=$Coll_01_x \
-      z=$Coll_01_z+$Coll_01_length/2.0
+      place Coll_01_b_in \
+            x=$Coll_01_x \
+            z=$Coll_01_z+$Coll_01_length/2.0
+
+      place Coll_01_b_out \
+            x=$Coll_01_x \
+            z=$Coll_01_z+$Coll_01_length/2.0
       
-tube Coll_01_b_pbar \
-    innerRadius=120. \
-    outerRadius=$Coll_01_Rin_1 \
-    length=200. \
-    initialPhi=200. finalPhi=340.0 \
-    material=Vacuum \
-    color=$Red \
-    kill=$TS_Collimator_kill      
-
-tube Coll_01_b_in \
-    innerRadius=$Coll_01_Rin_1 \
-    outerRadius=$Coll_01_Rin_2 \
-    length=$Coll_01_length \
-    initialPhi=-90.0 finalPhi=90.0 \
-    material=TS_Graphite \
-    color=invisible \
-    kill=$TS_Collimator_kill
-
-tube Coll_01_b_out \
-    innerRadius=$Coll_01_Rin_2 \
-    outerRadius=$Coll_01_Rout \
-    length=$Coll_01_length \
-    initialPhi=-90.0 finalPhi=90.0 \
-    material=Fake_Cu \
-    color=invisible\
-    kill=$TS_Collimator_kill
-    
-#place Coll_01_b_pbar x=$Coll_01_x z=$Coll_01_z+$Coll_01_length/2.0+400.      
-
-place Coll_01_b_in \
-      x=$Coll_01_x \
-      z=$Coll_01_z+$Coll_01_length/2.0
-
-place Coll_01_b_out \
-      x=$Coll_01_x \
-      z=$Coll_01_z+$Coll_01_length/2.0
-      
+endif
 
 ##********************
 ## Old PBAR WINDOW/Absorber 
@@ -191,11 +199,15 @@ tubs Coll_pbar \
      color=$Yellow \
      kill=0
 
-place Coll_pbar \
-      x=$Coll_pbar_x \
-      z=$Coll_pbar_z \
-      rotation=Y90 \
-      rename=Coll_pbar_a
+if $No_TS_Pbar_Window==0 
+
+      place Coll_pbar \
+            x=$Coll_pbar_x \
+            z=$Coll_pbar_z \
+            rotation=Y90 \
+            rename=Coll_pbar_a
+
+endif
 
 ## TS3 window followed by a trapezoid immediately downstream
 ## with 1.1 mm top thickness, to 0.001 mm bottom thickness 
@@ -216,7 +228,6 @@ param Wedge_pbar_z=$MECO_G4_zTrans
 #     material=KAPTON \
 #     material=Be \
 
-
 trap Wedge_pbar \
      height=$Wedge_pbar_height \
      upperWidth=$Wedge_pbar_upperWidth \
@@ -231,10 +242,14 @@ trap Wedge_pbar \
      color=$Red \
      kill=0
 
-place Wedge_pbar \
-      x=$Wedge_pbar_x \
-      y=$Wedge_pbar_y \
-      z=$Wedge_pbar_z
+if $No_TS_Pbar_Wedge==0 
+
+      place Wedge_pbar \
+            x=$Wedge_pbar_x \
+            y=$Wedge_pbar_y \
+            z=$Wedge_pbar_z
+
+endif
       
 ##********************
 ## COLL_03 
@@ -255,29 +270,33 @@ extrusion Coll_03_right \
 	  color=$TS_Collimator_Color \
 	  kill=$TS_Collimator_kill
 
-place Coll_03_right \
-      x=$Coll_03_up_x \
-      z=$Coll_03_up_z \
-      rotation=Y90,X180 \
-      rename=Coll_03_right_up
-      
-place Coll_03_right \
-      x=$Coll_03_up_x \
-      z=$Coll_03_up_z \
-      rotation=Y-90,X180 \
-      rename=Coll_03_left_up
+if $No_Coll_03==0
 
-place Coll_03_right \
-      x=$Coll_03_down_x \
-      z=$Coll_03_down_z \
-      rotation=Y90,X180 \
-      rename=Coll_03_right_down
+      place Coll_03_right \
+            x=$Coll_03_up_x \
+            z=$Coll_03_up_z \
+            rotation=Y90,X180 \
+            rename=Coll_03_right_up
+            
+      place Coll_03_right \
+            x=$Coll_03_up_x \
+            z=$Coll_03_up_z \
+            rotation=Y-90,X180 \
+            rename=Coll_03_left_up
       
-place Coll_03_right \
-      x=$Coll_03_down_x \
-      z=$Coll_03_down_z \
-      rotation=Y-90,X180 \
-      rename=Coll_03_left_down
+      place Coll_03_right \
+            x=$Coll_03_down_x \
+            z=$Coll_03_down_z \
+            rotation=Y90,X180 \
+            rename=Coll_03_right_down
+            
+      place Coll_03_right \
+            x=$Coll_03_down_x \
+            z=$Coll_03_down_z \
+            rotation=Y-90,X180 \
+            rename=Coll_03_left_down
+
+endif
 
 ##********************
 ## COLL_05 
@@ -297,10 +316,6 @@ tubs Coll_05_a \
      material=POLYETHYLENE \
      color=$TS_Collimator_Color \
      kill=$TS_Collimator_kill
-     
-place Coll_05_a \
-      x=$Coll_05_x \
-      z=$Coll_05_z
       
 tubs Coll_05_b \
      outerRadius=$Coll_05_Rout innerRadius=$Coll_05_Rin \
@@ -309,10 +324,18 @@ tubs Coll_05_b \
      material=POLYETHYLENE \
      color=invisible \
      kill=$TS_Collimator_kill
+
+if $No_Coll_05==0
      
-place Coll_05_b \
-      x=$Coll_05_x \
-      z=$Coll_05_z
+      place Coll_05_a \
+            x=$Coll_05_x \
+            z=$Coll_05_z
+
+      place Coll_05_b \
+            x=$Coll_05_x \
+            z=$Coll_05_z
+
+endif 
 
 ##********************
 ## COLL_05 Thin Foils 
